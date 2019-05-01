@@ -144,19 +144,19 @@ void move() {
 
 switch(direction){
   case "up":
-  s.setY(200);
+  s.setY(s.getY()-10);
    break;
   
   case "down":
-  s.setY(400);
+  s.setY(s.getY()+10);
   break;
   
   case "left":
-  s.setX(200);
+  s.setX(s.getX()-10);
   break;
  
   case "right":
-  s.setX(400);
+  s.setX(s.getX()+10);
   break;
     
 }
@@ -194,6 +194,30 @@ void keyPressed() {
 // 19. check if your head is out of bounds (teleport your snake head to the other side).
 
 void checkBoundaries() {
+  if(s.getX()<0){
+    
+    s.setX(s.getX()+500);
+    
+  }
+  
+  if(s.getX()>500){
+   
+    s.setX(s.getX()-500);
+    
+  }
+  
+  if(s.getY()<0){
+    
+   s.setY(s.getY()+500); 
+    
+  }
+  
+  
+  if(s.getY()>500){
+     
+    s.setY(s.getY()-500);
+    
+  }
   
   
   
@@ -207,10 +231,23 @@ void checkBoundaries() {
 
 // 21. Complete the missing parts of the collision method below.
 
+int foodEaten=0;
+
 void collision() {
 
   // If the segment is colliding with a piece of food...
      // Increase the amount of food eaten and set foodX and foodY to new random locations.
+     
+     if(s.getX()==foodX&&s.getY()==foodY){
+       
+       foodEaten=foodEaten+1;
+       
+       foodX = (int)random(width);
+       foodX-=(foodX%10);
+       foodY = (int)random(height);
+       foodY-=(foodY%10); 
+   }
+     
 }
 
 
@@ -223,7 +260,7 @@ void collision() {
 
 //  1. Create and initialize an ArrayList of Segments. (This will be your snake tail!)
 
-    ArrayList<String> a = new ArrayList<String>();
+    ArrayList<Segment> a = new ArrayList<Segment>();
 
 
 
@@ -231,7 +268,7 @@ void collision() {
 
 void manageTail() {
   
-  
+  checkTailCollision();
 
   //Call the drawTail and checkTailCollision methods.
   
@@ -240,16 +277,32 @@ void manageTail() {
   checkTailCollision();
 
   // Add a new Segment to your ArrayList that has the same X and Y as the head of your snake.
-
+  Segment tail = new Segment(s.getX(), s.getY());
+  a.add(tail);
   
 
   // To keep your tail the right length:
   // while the tail size is greater than the number of food pieces eaten, remove the first Segment in your tail.
+  
+  while(a.size()>foodEaten){
+    
+    a.remove(tail);
+    
+  }
+  
 
 }
 
 void drawTail() {
     // Draw a 10 by 10 rectangle for each Segment in your snake ArrayList.
+    
+    for(int i = 0; i < a.size(); i++){
+      Segment candy = a.get(i);
+      rect(candy.getX(), candy.getY(), 10, 10);
+      
+    }
+    
+    
 }
 
 
@@ -260,6 +313,10 @@ void checkTailCollision() {
   // If your head has the same location as one of your segments...
 
   // reset your food variable
-
+ 
   //Call this method at the beginning of your manageTail method.
+  
+
+  
+  
 }
