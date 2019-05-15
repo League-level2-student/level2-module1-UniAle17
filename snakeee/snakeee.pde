@@ -85,7 +85,7 @@ void draw() {
 
   background(0);
 
-
+  println(a.size());
   //12. Call the manageTail, drawFood, drawSnake, move, and collision methods. 
   
   manageTail();
@@ -286,7 +286,7 @@ void manageTail() {
   
   while(a.size()>foodEaten){
     
-    a.remove(tail);
+    a.remove(0);
     
   }
   
@@ -311,7 +311,19 @@ void drawTail() {
 void checkTailCollision() {
 
   // If your head has the same location as one of your segments...
-
+  
+  for(int i = 0; i < a.size(); i++){
+  
+    Segment tail2= a.get(i);
+    
+    
+    if(s.getX()==tail2.getX()&&s.getY()==tail2.getY()){
+     
+      foodEaten=0;
+      
+    }
+  
+  }
   // reset your food variable
  
   //Call this method at the beginning of your manageTail method.
